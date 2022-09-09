@@ -1,0 +1,22 @@
+# See the documentation for more information:
+# https://packit.dev/docs/configuration/
+
+specfile_path: awscli.spec
+
+# name in upstream package repository or registry (e.g. in PyPI)
+upstream_package_name: aws-cli
+# downstream (Fedora) RPM package name
+downstream_package_name: awscli
+
+actions:
+  post-upstream-clone:
+  - curl -sLO https://src.fedoraproject.org/rpms/awscli/raw/rawhide/f/awscli.spec
+  - sed -i -e 's/botocore==[0-9.]\+/botocore/' setup.py
+  - sed -i -e 's/botocore==[0-9.]\+/botocore/' setup.cfg
+
+jobs:
+  - job: copr_build
+    trigger: pull_request
+    packit_instances: ["stg"]
+    targets:
+      - fedora-rawhide
