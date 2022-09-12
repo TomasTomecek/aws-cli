@@ -11,8 +11,6 @@ downstream_package_name: awscli
 actions:
   post-upstream-clone:
   - curl -sLO https://src.fedoraproject.org/rpms/awscli/raw/rawhide/f/awscli.spec
-  - sed -i -e 's/botocore==[0-9.]\+/botocore/' setup.py
-  - sed -i -e 's/botocore==[0-9.]\+/botocore/' setup.cfg
 
 jobs:
   - job: copr_build
