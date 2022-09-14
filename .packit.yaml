@@ -10,14 +10,14 @@ downstream_package_name: awscli
 
 actions:
   post-upstream-clone:
-  - curl -sLO https://src.fedoraproject.org/rpms/awscli/raw/rawhide/f/awscli.spec
+  - curl -sLO https://src.fedoraproject.org/rpms/awscli/raw/epel9/f/awscli.spec
 
 jobs:
   - job: copr_build
     trigger: pull_request
     packit_instances: ["stg"]
     targets:
-      - fedora-rawhide
+      - centos-stream+epel-next-9
   - job: vm_image_build
     trigger: pull_request
     packit_instances: ["stg"]
@@ -30,8 +30,8 @@ jobs:
           share_with_accounts: ["727920394381"]
     image_customizations:
       packages: [awscli]
-    image_distribution: fedora-rawhide
+    image_distribution: rhel-90
     owner: packit-stg
     project: TomasTomecek-aws-cli-1
-    copr_chroot: fedora-rawhide-x86_64
+    copr_chroot: centos-stream+epel-next-9
 
