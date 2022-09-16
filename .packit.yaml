@@ -11,6 +11,7 @@ downstream_package_name: awscli
 actions:
   post-upstream-clone:
   - curl -sLO https://src.fedoraproject.org/rpms/awscli/raw/epel9/f/awscli.spec
+  - sed 's/bcond_without  tests/bcond_with tests/g' -i awscli.spec
 
 jobs:
   - job: copr_build
