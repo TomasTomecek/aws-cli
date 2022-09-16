@@ -31,8 +31,12 @@ jobs:
           share_with_accounts: ["727920394381"]
     image_customizations:
       packages: [awscli]
+      payload_repositories:
+      - rhsm: false
+        baseurl: https://kojipkgs.fedoraproject.org/repos/epel9-build/latest/x86_64/
+        check_gpg: false
     image_distribution: rhel-90
     owner: packit-stg
     project: TomasTomecek-aws-cli-1
-    copr_chroot: centos-stream+epel-next-9
+    copr_chroot: centos-stream+epel-next-9-x86_64
 
