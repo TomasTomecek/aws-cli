@@ -32,8 +32,16 @@ jobs:
     image_customizations:
       packages: [awscli]
       payload_repositories:
+      # for some reason, koji baseurl links don't work here
       - rhsm: false
-        baseurl: https://kojipkgs.fedoraproject.org/repos/epel9-build/latest/x86_64/
+        baseurl: https://mirror.cs.princeton.edu/pub/mirrors/epel/9/Everything/x86_64/
+        check_gpg: false
+      - rhsm: false
+        baseurl: https://mirror.cs.princeton.edu/pub/mirrors/epel/next/9/Everything/x86_64/
+        check_gpg: false
+      # docutils
+      - rhsm: false
+        baseurl: http://mirror.stream.centos.org/9-stream/CRB/x86_64/os/
         check_gpg: false
     image_distribution: rhel-90
     owner: packit-stg
