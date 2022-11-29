@@ -10,7 +10,7 @@ downstream_package_name: awscli
 
 actions:
   post-upstream-clone:
-  - curl -sLO https://src.fedoraproject.org/rpms/awscli/raw/epel9/f/awscli.spec
+  - curl -sLO https://src.fedoraproject.org/rpms/awscli/raw/f37/f/awscli.spec
   - sed 's/bcond_without  tests/bcond_with tests/g' -i awscli.spec
 
 jobs:
@@ -18,8 +18,8 @@ jobs:
     trigger: pull_request
     packit_instances: ["stg"]
     targets:
-      - centos-stream+epel-next-9
-      - fedora-36-x86_64
+      - fedora-37-x86_64
+      # - centos-stream+epel-next-9
   - job: vm_image_build
     trigger: pull_request
     packit_instances: ["stg"]
@@ -32,20 +32,22 @@ jobs:
           share_with_accounts: ["727920394381"]
     image_customizations:
       packages: [awscli]
-      payload_repositories:
-      # for some reason, koji baseurl links don't work here
-      - rhsm: false
-        baseurl: https://mirror.cs.princeton.edu/pub/mirrors/epel/9/Everything/x86_64/
-        check_gpg: false
-      - rhsm: false
-        baseurl: https://mirror.cs.princeton.edu/pub/mirrors/epel/next/9/Everything/x86_64/
-        check_gpg: false
-      # docutils
-      - rhsm: false
-        baseurl: http://mirror.stream.centos.org/9-stream/CRB/x86_64/os/
-        check_gpg: false
-    image_distribution: rhel-90
+    #   payload_repositories:
+    #   # for some reason, koji baseurl links don't work here
+    #   - rhsm: false
+    #     baseurl: https://mirror.cs.princeton.edu/pub/mirrors/epel/9/Everything/x86_64/
+    #     check_gpg: false
+    #   - rhsm: false
+    #     baseurl: https://mirror.cs.princeton.edu/pub/mirrors/epel/next/9/Everything/x86_64/
+    #     check_gpg: false
+    #   # docutils
+    #   - rhsm: false
+    #     baseurl: http://mirror.stream.centos.org/9-stream/CRB/x86_64/os/
+    #     check_gpg: false
+    # image_distribution: rhel-90
+    image_distribution: fedora-37
     owner: packit-stg
     project: TomasTomecek-aws-cli-1
-    copr_chroot: centos-stream+epel-next-9-x86_64
+    # copr_chroot: centos-stream+epel-next-9-x86_64
+    copr_chroot: fedora-37-x86_64
 
