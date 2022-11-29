@@ -1,0 +1,53 @@
+# See the documentation for more information:
+# https://packit.dev/docs/configuration/
+
+specfile_path: awscli.spec
+
+# name in upstream package repository or registry (e.g. in PyPI)
+upstream_package_name: aws-cli
+# downstream (Fedora) RPM package name
+downstream_package_name: awscli
+
+actions:
+  post-upstream-clone:
+  - curl -sLO https://src.fedoraproject.org/rpms/awscli/raw/f37/f/awscli.spec
+  - sed 's/bcond_without  tests/bcond_with tests/g' -i awscli.spec
+
+jobs:
+  - job: copr_build
+    trigger: pull_request
+    packit_instances: ["stg"]
+    targets:
+      - fedora-37-x86_64
+      # - centos-stream+epel-next-9
+  - job: vm_image_build
+    trigger: pull_request
+    packit_instances: ["stg"]
+    image_request:
+      architecture: x86_64
+      image_type: aws
+      upload_request:
+        type: aws
+        options:
+          share_with_accounts: ["727920394381"]
+    image_customizations:
+      packages: [awscli]
+    #   payload_repositories:
+    #   # for some reason, koji baseurl links don't work here
+    #   - rhsm: false
+    #     baseurl: https://mirror.cs.princeton.edu/pub/mirrors/epel/9/Everything/x86_64/
+    #     check_gpg: false
+    #   - rhsm: false
+    #     baseurl: https://mirror.cs.princeton.edu/pub/mirrors/epel/next/9/Everything/x86_64/
+    #     check_gpg: false
+    #   # docutils
+    #   - rhsm: false
+    #     baseurl: http://mirror.stream.centos.org/9-stream/CRB/x86_64/os/
+    #     check_gpg: false
+    # image_distribution: rhel-90
+    image_distribution: fedora-37
+    owner: packit-stg
+    project: TomasTomecek-aws-cli-1
+    # copr_chroot: centos-stream+epel-next-9-x86_64
+    copr_chroot: fedora-37-x86_64
+
